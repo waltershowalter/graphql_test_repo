@@ -7,7 +7,7 @@ usage="""
 Github API tester.
 
 Usage:
-  twitter_pr_test.py organization <name> N <count>
+  twitter_pr_test.py organization <name> N <count> token <hash>
   
 Options:
   -h --help     Show this screen.
@@ -44,8 +44,9 @@ query = (
   )
 
 url = 'https://api.github.com/graphql'
-headers = {'Authorization': 'Bearer 10def6642b0df216b2bff51829c341013948a206'}
-
+headers = dict()
+headers['Authorization'] = "Bearer " + args['<hash>']
+print("What are the headers: {}".format(headers))
 
 response = requests.post(url, headers=headers, json={'query': query})
 print(response.status_code)

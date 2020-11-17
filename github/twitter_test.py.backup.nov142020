@@ -44,7 +44,7 @@ query = """{
 """
 
 url = 'https://api.github.com/graphql'
-headers = {'Authorization': 'Bearer 10def6642b0df216b2bff51829c341013948a206'}
+headers = {'Authorization': 'Bearer your_bearer_token_here'}
 response = requests.post(url, headers=headers, json={'query': query})
 print(response.status_code)
 print(response.text)
