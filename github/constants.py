@@ -4,7 +4,7 @@ usage = """
 Github API tester.
 
 Usage:
-  twitter_pr_test.py organization <name> N <count> token <hash>
+  github_query_driver.py organization <name> N <count> token <hash>
 
 Options:
   -h --help     Show this screen.

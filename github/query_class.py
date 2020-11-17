@@ -62,13 +62,13 @@ class QueryClass:
             self.has_next_page = True
             cursor_hash = page_info['endCursor']
             #TODO make log statement
-            print("What is the cursor hash: {}".format(cursor_hash))
+            # print("What is the cursor hash: {}".format(cursor_hash))
             self.after_string = ", after:\"{}\"".format(cursor_hash)
 
     def make_query(self):
         response = requests.post(self.url, headers=self.headers, json={'query': self.github_query})
-        print(response.status_code)
-        print(response.text)
+        # print(response.status_code)
+        # print(response.text)
         self.json_data = json.loads(response.text)
 
     def get_stargazers_count(self):
@@ -115,7 +115,7 @@ class QueryClass:
                                              reverse=True)[:int(self.count)]
 
     def print_top_repo_contributors(self):
-        print("Length of contribution dictionary: {}".format(len(self.contribution_dict)))
+        # print("Length of contribution dictionary: {}".format(len(self.contribution_dict)))
         print("Top repos for contributions: {}". format(self.top_repo_contributions))
 
     def list_results(self):
