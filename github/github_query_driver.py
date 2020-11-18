@@ -8,11 +8,18 @@ from docopt import docopt
 class GitHubQueryDriver:
 
     def __init__(self):
+        """Initialize the class
+
+        """
         self.args = docopt(constants.usage)
         # print(self.args)
         # print(self.args['<name>'])
 
-    def run_query(self):
+    def run_query(self) -> None:
+        """Runs the query and gets the stats requested from the exercise
+
+        :return: None
+        """
 
         print("*** RESULTS ***")
 
