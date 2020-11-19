@@ -2,8 +2,8 @@
 
 import constants
 import query_class
-
 from docopt import docopt
+
 
 class GitHubQueryDriver:
 
@@ -11,7 +11,7 @@ class GitHubQueryDriver:
         """Initialize the class
 
         """
-        self.args = docopt(constants.usage)
+        self.args = docopt(constants.USAGE)
         # print(self.args)
         # print(self.args['<name>'])
 
@@ -23,9 +23,12 @@ class GitHubQueryDriver:
 
         print("*** RESULTS ***")
 
+        assert len(self.args['<hash>'] ) > 35
+        assert str(self.args['<count>']).isdigit()
+
         this_query = query_class.QueryClass(self.args['<hash>'], passed_count=self.args['<count>'])
         this_query.make_query()
-        json_data = this_query.return_json_data()
+        json_data = this_query.json_data
 
         this_query.gather_repo_stat_counts()
         # this_query.list_results()

@@ -95,26 +95,26 @@ class QueryClass:
         # print(response.text)
         self.json_data = json.loads(response.text)
 
-    def get_stargazers_count(self) -> dict:
+    def create_stargazers_dict(self) -> dict:
         """Retrieve the stargazers count for each repo in the returned org result
 
-        :return: None
+        :return: dict
         """
         return {node['name']: node['stargazers']['totalCount'] for node in
                 self.json_data['data']['organization']['repositories']['nodes']}
 
-    def get_forks_count(self) -> dict:
+    def create_forks_dict(self) -> dict:
         """Retrieve the forks count for each repo in the returned org result
 
-        :return: None
+        :return: dict
         """
         return {node['name']: node['forks']['totalCount'] for node in
                 self.json_data['data']['organization']['repositories']['nodes']}
 
-    def get_prs_count(self) -> dict:
+    def create_prs_dict(self) -> dict:
         """Retrieve the stargazers count for each repo in the returned org result
 
-        :return: None
+        :return: dict
         """
         return {node['name']: node['pullRequests']['totalCount'] for node in
                 self.json_data['data']['organization']['repositories']['nodes']}
@@ -125,13 +125,13 @@ class QueryClass:
         :return: None
         """
         if not self.repo_stars and not self.repo_forks and not self.repo_prs:
-            self.repo_stars = self.get_stargazers_count()
-            self.repo_forks = self.get_forks_count()
-            self.repo_prs = self.get_prs_count()
+            self.repo_stars = self.create_stargazers_dict()
+            self.repo_forks = self.create_forks_dict()
+            self.repo_prs = self.create_prs_dict()
         else:
-            self.repo_stars.update(self.get_stargazers_count())
-            self.repo_forks.update(self.get_forks_count())
-            self.repo_prs.update(self.get_prs_count())
+            self.repo_stars.update(self.create_stargazers_dict())
+            self.repo_forks.update(self.create_forks_dict())
+            self.repo_prs.update(self.create_prs_dict())
 
     def print_repo_counts(self) -> None:
         """Print out the counts for the stargazers, foks and PRs in each repo
@@ -186,12 +186,20 @@ class QueryClass:
         for key, value in self.repo_stars.items():
             print("Repo: {}, stars {}".format(key, value))
 
-    #TODO make proper property
-    def return_json_data(self) -> dict:
-        """Returns the JSON data
+    @property
+    def json_data(self) -> dict:
+        """Returns the JSON data. Getter
 
-        :return:
+        :return: dict
         """
-        return self.json_data
+        return self._json_data
 
+    @json_data.setter
+    def json_data(self, value: dict) -> None:
+        """Setter for json_data
+
+        :param value: dict
+        :return: None
+        """
+        self._json_data = value
 
