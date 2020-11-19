@@ -1,10 +1,14 @@
 """Query class for graphql"""
+__author__='Andrew.Fernandez'
 
 import requests
 import json
+import constants
+import logging
+import logging.config
+import test_logging_mixin
 
-
-class QueryClass:
+class QueryClass(test_logging_mixin.TestLoggingMixin):
 
     def __init__(self, passed_hash, passed_organization="twitter", passed_count=5):
         """Initialize the Query Class
@@ -13,7 +17,7 @@ class QueryClass:
         :param passed_organization:
         :param passed_count:
         """
-        self.url = 'https://api.github.com/graphql'
+        self.url = constants.GRAPHQL_URL
         self.organization = passed_organization
         self.headers = dict()
         self.headers['Authorization'] = "Bearer " + passed_hash
@@ -82,7 +86,7 @@ class QueryClass:
             self.has_next_page = True
             cursor_hash = page_info['endCursor']
             # TODO make log statement
-            # print("What is the cursor hash: {}".format(cursor_hash))
+            # logging.info("What is the cursor hash: {}".format(cursor_hash))
             self.after_string = ", after:\"{}\"".format(cursor_hash)
 
     def make_query(self) -> None:
@@ -91,8 +95,6 @@ class QueryClass:
         :return: None
         """
         response = requests.post(self.url, headers=self.headers, json={'query': self.github_query})
-        # print(response.status_code)
-        # print(response.text)
         self.json_data = json.loads(response.text)
 
     def create_stargazers_dict(self) -> dict:
@@ -133,14 +135,15 @@ class QueryClass:
             self.repo_forks.update(self.create_forks_dict())
             self.repo_prs.update(self.create_prs_dict())
 
-    def print_repo_counts(self) -> None:
-        """Print out the counts for the stargazers, foks and PRs in each repo
+    def output_repo_counts(self) -> None:
+        """Output the counts for the stargazers, foks and PRs in each repo
 
         :return: None
         """
-        print("Length of stars: {}".format(len(self.repo_stars)))
-        print("Length of forks: {}".format(len(self.repo_forks)))
-        print("Length of prs: {}".format(len(self.repo_prs)))
+        # logging.info("Length of stars: {}".format(len(self.repo_stars)))
+        # logging.info("Length of forks: {}".format(len(self.repo_forks)))
+        # logging.info("Length of prs: {}".format(len(self.repo_prs)))
+        pass
 
     def calculate_top_counts(self) -> None:
         """Get the top counts based on the number of top counts to retrive
@@ -151,14 +154,14 @@ class QueryClass:
         self.top_repo_forks = sorted(self.repo_forks.items(), key=lambda x: x[1], reverse=True)[:int(self.count)]
         self.top_repo_prs = sorted(self.repo_prs.items(), key=lambda x: x[1], reverse=True)[:int(self.count)]
 
-    def print_top_counts(self) -> None:
-        """Print the top counts for each of the fields in each repo
+    def output_top_counts(self) -> None:
+        """Output the top counts for each of the fields in each repo
 
         :return: None
         """
-        print("Top stars: {}".format(self.top_repo_stars))
-        print("Top forks: {}".format(self.top_repo_forks))
-        print("Top PRs: {}".format(self.top_repo_prs))
+        logging.info("Top repo for stars: {}".format(self.top_repo_stars))
+        logging.info("Top repos for forks: {}".format(self.top_repo_forks))
+        logging.info("Top repos for PRs: {}".format(self.top_repo_prs))
 
     def calculate_top_contribution_repos(self) -> None:
         """Calculate the contribution PRs/Forks for the repos
@@ -170,13 +173,13 @@ class QueryClass:
         self.top_repo_contributions = sorted(self.contribution_dict.items(), key=lambda x: x[1],
                                              reverse=True)[:int(self.count)]
 
-    def print_top_repo_contributors(self) -> None:
-        """Print the stats for the contribution metric
+    def output_top_repo_contributors(self) -> None:
+        """Output the stats for the contribution metric
 
         :return: None
         """
-        # print("Length of contribution dictionary: {}".format(len(self.contribution_dict)))
-        print("Top repos for contributions: {}". format(self.top_repo_contributions))
+        # logging.info("Length of contribution dictionary: {}".format(len(self.contribution_dict)))
+        logging.info("Top repos for contributions: {}". format(self.top_repo_contributions))
 
     def list_results(self) -> None:
         """Print the number of stars for the last result query
@@ -184,7 +187,7 @@ class QueryClass:
         :return:
         """
         for key, value in self.repo_stars.items():
-            print("Repo: {}, stars {}".format(key, value))
+            logging.info("Repo: {}, stars {}".format(key, value))
 
     @property
     def json_data(self) -> dict:

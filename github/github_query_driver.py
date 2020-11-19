@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 
+"""
+Driver class for getting top repos from
+"""
+__author__='Andrew.Fernandez'
+
 import constants
 import query_class
+import logging
+import logging.config
+import test_logging_mixin
 from docopt import docopt
 
 
-class GitHubQueryDriver:
+class GitHubQueryDriver(test_logging_mixin.TestLoggingMixin):
 
     def __init__(self):
         """Initialize the class
 
         """
+        super().__init__()
         self.args = docopt(constants.USAGE)
-        # print(self.args)
-        # print(self.args['<name>'])
 
     def run_query(self) -> None:
         """Runs the query and gets the stats requested from the exercise
@@ -21,9 +28,9 @@ class GitHubQueryDriver:
         :return: None
         """
 
-        print("*** RESULTS ***")
+        print("*** TOP RESULTS ***")
 
-        assert len(self.args['<hash>'] ) > 35
+        assert len(self.args['<hash>'] ) == 40
         assert str(self.args['<count>']).isdigit()
 
         this_query = query_class.QueryClass(self.args['<hash>'], passed_count=self.args['<count>'])
@@ -31,7 +38,6 @@ class GitHubQueryDriver:
         json_data = this_query.json_data
 
         this_query.gather_repo_stat_counts()
-        # this_query.list_results()
 
         page_info = this_query.get_page_info(json_data)
         this_query.query_pagination(page_info)
@@ -40,15 +46,12 @@ class GitHubQueryDriver:
         this_query.make_query()
 
         this_query.gather_repo_stat_counts()
-        # this_query.list_results()
-
-        # this_query.print_repo_counts()
 
         this_query.calculate_top_counts()
-        this_query.print_top_counts()
+        this_query.output_top_counts()
 
         this_query.calculate_top_contribution_repos()
-        this_query.print_top_repo_contributors()
+        this_query.output_top_repo_contributors()
 
 
 gqd = GitHubQueryDriver()

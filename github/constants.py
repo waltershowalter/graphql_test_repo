@@ -11,6 +11,9 @@ Options:
 """
 
 GRAPHQL_URL = 'https://api.github.com/graphql'
+LOGGING_FORMAT_STR_FULL = '%(asctime)s %(levelname)-8s - %(message)s'
+LOGGING_FORMAT_STR_COMPACT = '%(message)s'
+LOG_FILE_LOCATION = '../logs/github_api.log'
 
 MOCK_JSON_DATA = """
 {

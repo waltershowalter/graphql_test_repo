@@ -1,3 +1,6 @@
+###TestQueryClass.py###
+__author__ = "Andrew.Fernandez"
+
 import unittest
 import mock
 import pytest
