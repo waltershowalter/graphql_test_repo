@@ -140,10 +140,9 @@ class QueryClass(test_logging_mixin.TestLoggingMixin):
 
         :return: None
         """
-        # logging.info("Length of stars: {}".format(len(self.repo_stars)))
-        # logging.info("Length of forks: {}".format(len(self.repo_forks)))
-        # logging.info("Length of prs: {}".format(len(self.repo_prs)))
-        pass
+        logging.info("Length of stars: {}".format(len(self.repo_stars)))
+        logging.info("Length of forks: {}".format(len(self.repo_forks)))
+        logging.info("Length of prs: {}".format(len(self.repo_prs)))
 
     def calculate_top_counts(self) -> None:
         """Get the top counts based on the number of top counts to retrive
