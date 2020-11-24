@@ -1,5 +1,8 @@
 # graphql_test_repo
-Retrieve top repo stats using API calls with Graphql to Github using
+
+## Summary:
+
+Retrieve top repo stats from GitHub using GraphQL requests.
 
 ## Overview:
 
